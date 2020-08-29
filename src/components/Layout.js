@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
-import { space, flexbox } from "styled-system";
+import { space, flexbox, grid, layout } from "styled-system";
 
 export const Box = styled.div`
   ${space};
   ${flexbox};
+  ${layout}
   border: 1px solid red;
 `;
 
@@ -12,4 +13,7 @@ export const Flex = styled(Box)({
   outline: "1px solid blue",
 });
 
-export const Grid = styled.div``;
+export const Grid = styled.div`
+  display: grid;
+  ${grid};
+`;

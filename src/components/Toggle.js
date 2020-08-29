@@ -1,18 +1,8 @@
 import React from "react";
+import { Checkbox as SemanticCheckbox } from "semantic-ui-react";
+import styled from "@emotion/styled";
 
-const Checkbox = () => {
-  const [checked, setChecked] = React.useState(true);
+const Toggle = styled((props) => <SemanticCheckbox {...props} toggle />)({});
 
-  return (
-    <label>
-      <input
-        type="checkbox"
-        checked={checked}
-        onChange={() => setChecked(!checked)}
-      />
-      theme
-    </label>
-  );
-};
 
-export default Checkbox;
+export default Toggle;
