@@ -1,19 +1,20 @@
 import styled from "@emotion/styled";
-import { space, flexbox, grid, layout } from "styled-system";
+import { space, flexbox, grid, layout, border, color } from "styled-system";
 
 export const Box = styled.div`
   ${space};
+  ${color};
   ${flexbox};
-  ${layout}
-  border: 1px solid red;
+  ${layout};
+  ${border}
 `;
 
 export const Flex = styled(Box)({
   display: "flex",
-  outline: "1px solid blue",
 });
 
 export const Grid = styled.div`
+  ${space};
   display: grid;
   ${grid};
 `;
