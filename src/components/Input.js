@@ -7,6 +7,7 @@ const Input = styled(SInput)({
     borderRadius: " 0 !important",
     borderLeft: "none !important",
     borderRight: "none !important",
+    fontFamily: "inherit !important",
   },
 });
 

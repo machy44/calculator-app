@@ -10,14 +10,13 @@ import {
   Display,
   Grid,
   Input,
-  Container,
 } from "./components";
 import { useTheme } from "emotion-theming";
 import { Global, css, injectGlobal } from "@emotion/core";
 import styled from "@emotion/styled";
 import { ThemeProvider } from "emotion-theming";
 import { getTheme, modes } from "./theme";
-import { calcButtons } from "./constants";
+import CalcButtons from "./Buttons";
 
 const GlobalStyles = css`
   @import url("https://fonts.googleapis.com/css2?family=Russo+One&display=swap");
@@ -69,10 +68,10 @@ const App = () => {
             <Flex justifyContent="center" my="10px">
               <Text color="black">CALCULATOR</Text>
             </Flex>
-            <CalculatorHeader>
+            {/* <CalculatorHeader>
               <Toggle onClick={() => setMode(modes[1])} label="Change Theme" />
               <Toggle onClick={() => console.log("audio")} label="Sound" />
-            </CalculatorHeader>
+            </CalculatorHeader> */}
             <Flex justifyContent="center" p="10px 20px"></Flex>
             <Display
               alignItems="flex-end"
@@ -82,7 +81,7 @@ const App = () => {
               backgroundColor="#F0F0F0"
               borderTop="1px solid rgba(34,36,38,.15)"
             >
-              display
+              results
             </Display>
             <Input size="large" placeholder="Type a math problem..." />
             <Box
@@ -90,20 +89,7 @@ const App = () => {
               p={["xs", "sm", "md"]}
               borderRadius="4px"
             >
-              <Grid
-                mt="10px"
-                gridTemplateColumns="repeat(5, 1fr)"
-                gridRowGap={["4px", "6px", "8"]}
-                gridColumnGap={["4px", "6px", "8"]}
-              >
-                {calcButtons.map((buttonElement) => {
-                  return (
-                    <Button basic color="black" key={buttonElement}>
-                      <Text color="black">{buttonElement}</Text>
-                    </Button>
-                  );
-                })}
-              </Grid>
+              <CalcButtons />
             </Box>
           </Flex>
         </Flex>

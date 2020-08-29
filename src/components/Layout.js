@@ -14,7 +14,7 @@ export const Flex = styled(Box)({
 });
 
 export const Grid = styled.div`
-  ${space};
   display: grid;
+  ${space};
   ${grid};
 `;
