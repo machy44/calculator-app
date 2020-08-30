@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const URL = "http://api.mathjs.org/v4/";
 
@@ -7,6 +7,7 @@ const config = {
   headers: {
     "Content-Type": "application/json",
   },
+  body: JSON.stringify()
 };
 
 const replaceSymbolsInQuery = (query) => {
@@ -27,16 +28,16 @@ const useFetch = () => {
         const res = await fetch(`${URL}?expr=${preparedQuery}`, config);
         const json = await res.json();
         setResponse(json);
-        setIsLoading(false);
       } catch (error) {
-        setError(error);
+        setError("Malformed expression");
+      } finally {
         setIsLoading(false);
       }
     };
     fetchData();
   };
 
-  return { response, setResponse, error, isLoading, handleSubmit };
+  return { response, setResponse, error, setError, isLoading, handleSubmit };
 };
 
 export default useFetch;

@@ -19,7 +19,14 @@ const App = () => {
   // const [mode, setMode] = useState(modes[0]); // TODO: changing themes
   const [expression, setExpression] = useState();
   const [responseHistory, setResponseHistory] = useState([]);
-  const { response, setResponse, error, isLoading, handleSubmit } = useFetch();
+  const {
+    response,
+    setResponse,
+    error,
+    setError,
+    isLoading,
+    handleSubmit,
+  } = useFetch();
 
   const inputRef = React.useRef(null);
   const previousExpression = React.useRef(null);
@@ -27,6 +34,7 @@ const App = () => {
   const theme = getTheme(modes[0]);
 
   const handleInput = (e, data) => {
+    setError("");
     if (response) {
       setResponse();
     }
@@ -46,8 +54,9 @@ const App = () => {
   };
 
   const handleKey = (value) => {
+    setError("");
     if (response && operations.includes(value)) {
-      setResponse(null)
+      setResponse(null);
       setExpression(`${response}${value}`);
       return;
     }
@@ -95,8 +104,6 @@ const App = () => {
     setExpression((expression) => (expression ? expression.slice(0, -1) : ""));
   };
 
-  console.log("expression", expression);
-  // console.log("error", error);
   return (
     <React.Fragment>
       <Global styles={GlobalStyles} />
@@ -137,11 +144,13 @@ const App = () => {
               disabled={isLoading}
               ref={inputRef}
               size="large"
-              placeholder={isLoading ? "" : "Type a math problem..."}
+              placeholder={
+                error ? error : isLoading ? "" : "Type a math problem..."
+              }
               value={response ? response : expression}
               onChange={handleInput}
               onKeyPress={handleEnterPress}
-              error={Boolean(error)}
+              error={!!error}
             />
             <Box
               backgroundColor="#F8F8F8"
