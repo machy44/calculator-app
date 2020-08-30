@@ -99,9 +99,15 @@ const App = () => {
 
   const handleDelKey = () => {
     if (response) setResponse();
-    //delete from cursor positions
+    let start = inputRef.current.inputRef.current.selectionStart;
 
-    setExpression((expression) => (expression ? expression.slice(0, -1) : ""));
+    let splittedExpression = expression.split("");
+    // remove element depend on position where cursor is set
+    splittedExpression.splice(start - 1, 1);
+
+    setExpression((expression) =>
+      expression ? splittedExpression.join("") : ""
+    );
   };
 
   return (
