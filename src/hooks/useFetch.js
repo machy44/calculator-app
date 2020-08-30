@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const URL = "http://api.mathjs.org/v4/";
+const URL = "https://api.mathjs.org/v4/";
 
 const config = {
   method: "GET",
