@@ -1,20 +1,13 @@
 /** @jsx jsx */
 import React, { useState, useEffect } from "react";
 import { jsx } from "@emotion/core";
-import {
-  Box,
-  Flex,
-  Display,
-  Input,
-} from "./components";
+import { Box, Flex, Display, Input } from "./components";
 import { useTheme } from "emotion-theming";
 import { Global, css, injectGlobal } from "@emotion/core";
 import { ThemeProvider } from "emotion-theming";
 import { getTheme, modes, GlobalStyles } from "./theme";
 import CalcButtons from "./Buttons";
 import useFetch from "./hooks/useFetch";
-
-
 
 // const CalculatorHeader = styled(Flex)({
 //   justifyContent: "flex-start",
@@ -62,7 +55,7 @@ const App = () => {
   useEffect(() => {
     if (response) {
       setResponseHistory((responses) => [
-        ...responses,
+        ...responses.slice(-4),
         `${previousExpression.current} = ${response}`,
       ]);
     }
@@ -122,9 +115,7 @@ const App = () => {
               flexDirection="column"
               justifyContent="flex-end"
               height={["120px", "100px"]}
-              // whiteSpace="nowrap"
-              overflow="auto"
-              p="10px 20px"
+              px="10px"
               backgroundColor="#F0F0F0"
               borderTop="1px solid rgba(34,36,38,.15)"
             >
