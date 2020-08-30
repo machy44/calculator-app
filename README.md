@@ -6,4 +6,4 @@ deploy on firebase: https://dzone.com/articles/react-apps-firebase
 font: https://fonts.google.com/specimen/Russo+One?sidebar.open=true&selection.family=Russo+One#standard-styles
 
 
-math api: https://api.mathjs.org/
+math api: https://api.mathjs.

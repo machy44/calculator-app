@@ -76,6 +76,7 @@ const App = () => {
   const handleCursor = (event, moveOperation) => {
     inputRef.current.focus();
 
+    //https://github.com/Semantic-Org/Semantic-UI-React/blob/master/src/elements/Input/Input.js#L56
     // It seems like SemanticUI input wraps html input and the only way I could access to
     // html input is ref inside semanticUI input ref current object
     let start = inputRef.current.inputRef.current.selectionStart;
@@ -135,7 +136,7 @@ const App = () => {
               size="large"
               placeholder="Type a math problem..."
               // defaultValue={0}
-              value={expression}
+              value={response ? response : expression}
               onChange={handleInput}
               onKeyPress={handleEnterPress}
             />

@@ -14,14 +14,17 @@ const SIGN_MAP = {
   "/": "%2F",
 };
 
+const replaceSymbolsInQuery = (query) => {
+  return query.replace(/\+/g, "%2B").replace(/\//g, "%2F");
+};
+
 const useFetch = () => {
   const [response, setResponse] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (query) => {
-    let preparedQuery = query.replace(/\+/g, "%2B").replace(/\//g, "%2F");
-
+    let preparedQuery = replaceSymbolsInQuery(query);
 
     const fetchData = async () => {
       setIsLoading(true);
