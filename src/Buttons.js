@@ -7,6 +7,8 @@ const Span2ColumnsButton = styled(Button)({
   gridColumn: "span 2",
 });
 
+export const operations = ["+", "/", "*", "(", ")", "-"];
+
 const CalcButtons = ({
   handleEqual,
   handleKey,

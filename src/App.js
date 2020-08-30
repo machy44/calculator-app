@@ -5,7 +5,7 @@ import { Box, Flex, Display, Input } from "./components";
 import { Global } from "@emotion/core";
 import { ThemeProvider } from "emotion-theming";
 import { getTheme, modes, GlobalStyles } from "./theme";
-import CalcButtons from "./Buttons";
+import CalcButtons, { operations } from "./Buttons";
 import useFetch from "./hooks/useFetch";
 
 // const CalculatorHeader = styled(Flex)({
@@ -16,7 +16,7 @@ import useFetch from "./hooks/useFetch";
 // });
 
 const App = () => {
-  const [mode, setMode] = useState(modes[0]);
+  // const [mode, setMode] = useState(modes[0]); // TODO: changing themes
   const [expression, setExpression] = useState();
   const [responseHistory, setResponseHistory] = useState([]);
   const { response, setResponse, error, isLoading, handleSubmit } = useFetch();
@@ -24,7 +24,7 @@ const App = () => {
   const inputRef = React.useRef(null);
   const previousExpression = React.useRef(null);
 
-  const theme = getTheme(mode);
+  const theme = getTheme(modes[0]);
 
   const handleInput = (e, data) => {
     if (response) {
@@ -46,6 +46,12 @@ const App = () => {
   };
 
   const handleKey = (value) => {
+    if (response && operations.includes(value)) {
+      setResponse(null)
+      setExpression(`${response}${value}`);
+      return;
+    }
+    if (response && !operations.includes(value)) setResponse(null);
     setExpression((expression) =>
       expression ? `${expression}${value}` : value
     );
@@ -83,11 +89,14 @@ const App = () => {
   };
 
   const handleDelKey = () => {
+    if (response) setResponse();
+    //delete from cursor positions
+
     setExpression((expression) => (expression ? expression.slice(0, -1) : ""));
   };
 
-  // console.log("response", response);
-  console.log("error", error);
+  console.log("expression", expression);
+  // console.log("error", error);
   return (
     <React.Fragment>
       <Global styles={GlobalStyles} />
@@ -97,7 +106,7 @@ const App = () => {
             flexDirection="column"
             maxWidth={512}
             mx="auto"
-            style={{
+            css={{
               border: "1px solid rgba(0,0,0,0.14)",
               borderRadius: 4,
               boxShadow: "12px 17px 16px -13px rgba(0,0,0,0.47)",
