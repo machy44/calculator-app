@@ -2,8 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { jsx } from "@emotion/core";
 import { Box, Flex, Display, Input } from "./components";
-import { useTheme } from "emotion-theming";
-import { Global, css, injectGlobal } from "@emotion/core";
+import { Global } from "@emotion/core";
 import { ThemeProvider } from "emotion-theming";
 import { getTheme, modes, GlobalStyles } from "./theme";
 import CalcButtons from "./Buttons";

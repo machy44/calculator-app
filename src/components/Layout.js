@@ -9,21 +9,10 @@ import {
   position,
 } from "styled-system";
 
-export const Box = styled.div`
-  ${space};
-  ${color};
-  ${flexbox};
-  ${layout};
-  ${border};
-  ${position};
-`;
+export const Box = styled.div(space, color, flexbox, layout, border, position);
 
 export const Flex = styled(Box)({
   display: "flex",
 });
 
-export const Grid = styled.div`
-  display: grid;
-  ${space};
-  ${grid};
-`;
+export const Grid = styled.div({ display: "grid" }, space, grid);

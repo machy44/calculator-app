@@ -9,11 +9,6 @@ const config = {
   },
 };
 
-const SIGN_MAP = {
-  "+": "%2B",
-  "/": "%2F",
-};
-
 const replaceSymbolsInQuery = (query) => {
   return query.replace(/\+/g, "%2B").replace(/\//g, "%2F");
 };
@@ -40,7 +35,6 @@ const useFetch = () => {
     };
     fetchData();
   };
-
 
   return { response, setResponse, error, isLoading, handleSubmit };
 };
