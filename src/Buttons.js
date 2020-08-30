@@ -51,10 +51,10 @@ const CalcButtons = ({
       <Button basic color="black" key={9} onClick={() => handleKey("*")}>
         <Text color="black">&times;</Text>
       </Button>
-      <Button basic color="black" key={10} onClick={handleCursor}>
+      <Button basic color="black" key={10} onClick={(e) => handleCursor(e, "minus")}>
         <Text color="black">&#8592;</Text>
       </Button>
-      <Button basic color="black" key={11} onClick={handleCursor}>
+      <Button basic color="black" key={11} onClick= {(e) => handleCursor(e, "plus")}>
         <Text color="black">&#8594;</Text>
       </Button>
       <Button basic color="black" key={12} onClick={() => handleKey(1)}>

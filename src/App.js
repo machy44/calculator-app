@@ -73,15 +73,18 @@ const App = () => {
     );
   };
 
-  const handleCursor = (event) => {
-    event.preventDefault();
+  const handleCursor = (event, moveOperation) => {
     inputRef.current.focus();
 
-    inputRef.current.selectionStart = inputRef.current.selectionEnd = 0;
-    // setCursor(1);
-    // console.log(pos);
-    // inputRef.current.selectionStart = inputRef.current.selectionEnd =
-    // inputRef.current.selectionEnd - 1;
+    let start = inputRef.current.selectionStart;
+
+    if (moveOperation === "plus") {
+      inputRef.current.selectionStart = inputRef.current.selectionEnd =
+        start + 1;
+    } else {
+      inputRef.current.selectionStart = inputRef.current.selectionEnd =
+        start - 1;
+    }
   };
 
   const handleResetKey = () => {
@@ -125,8 +128,9 @@ const App = () => {
             >
               {response}
             </Display>
-            <Input
-              innerRef={inputRef}
+            <input
+              // innerRef={inputRef}
+              ref={inputRef}
               size="large"
               placeholder="Type a math problem..."
               // defaultValue={0}
