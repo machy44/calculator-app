@@ -17,6 +17,7 @@ import styled from "@emotion/styled";
 import { ThemeProvider } from "emotion-theming";
 import { getTheme, modes } from "./theme";
 import CalcButtons from "./Buttons";
+import useFetch from "./hooks/useFetch";
 
 const GlobalStyles = css`
   @import url("https://fonts.googleapis.com/css2?family=Russo+One&display=swap");
@@ -45,10 +46,50 @@ const CalculatorHeader = styled(Flex)({
 
 const App = () => {
   const [mode, setMode] = useState(modes[0]);
+  const [expression, setExpression] = useState();
+  const { response, error, isLoading, handleSubmit } = useFetch();
+  const [cursor, setCursor] = useState();
+  const inputRef = React.useRef(null);
 
   const theme = getTheme(mode);
 
-  console.log(theme);
+  const handleInput = (e, data) => {
+    setExpression(data.value);
+  };
+
+  const handleEqual = () => {
+    handleSubmit(expression);
+  };
+
+  const handleKey = (value) => {
+    setExpression((expression) =>
+      expression ? `${expression}${value}` : value
+    );
+  };
+
+  const handleCursor = (event) => {
+    event.preventDefault();
+    inputRef.current.focus();
+  
+    inputRef.current.selectionStart = inputRef.current.selectionEnd = 0;
+    // setCursor(1);
+    // console.log(pos);
+    // inputRef.current.selectionStart = inputRef.current.selectionEnd =
+    // inputRef.current.selectionEnd - 1;
+  };
+
+  const handleResetKey = () => {
+    setExpression("")
+  }
+
+  const handleDelKey = () => {
+    setExpression((expression) =>
+    expression ? expression.slice(0, -1) : ""
+  );
+  }
+
+  console.log("response", response);
+  console.log("error", error);
   return (
     <React.Fragment>
       <Global styles={GlobalStyles} />
@@ -65,9 +106,6 @@ const App = () => {
             }}
             // css={{ backgroundColor: theme.colors.body }}
           >
-            <Flex justifyContent="center" my="10px">
-              <Text color="black">CALCULATOR</Text>
-            </Flex>
             {/* <CalculatorHeader>
               <Toggle onClick={() => setMode(modes[1])} label="Change Theme" />
               <Toggle onClick={() => console.log("audio")} label="Sound" />
@@ -76,20 +114,33 @@ const App = () => {
             <Display
               alignItems="flex-end"
               justifyContent="center"
-              minHeight={["100px", "120px", "150px"]}
+              minHeight={["50px", "60px", "75px"]}
               p="10px 20px"
               backgroundColor="#F0F0F0"
               borderTop="1px solid rgba(34,36,38,.15)"
             >
-              results
+              {response}
             </Display>
-            <Input size="large" placeholder="Type a math problem..." />
+            <Input
+              innerRef={inputRef}
+              size="large"
+              placeholder="Type a math problem..."
+              // defaultValue={0}
+              value={expression}
+              onChange={handleInput}
+            />
             <Box
               backgroundColor="#F8F8F8"
               p={["xs", "sm", "md"]}
               borderRadius="4px"
             >
-              <CalcButtons />
+              <CalcButtons
+                handleEqual={handleEqual}
+                handleResetKey={handleResetKey}
+                handleKey={handleKey}
+                handleDelKey={handleDelKey}
+                handleCursor={handleCursor}
+              />
             </Box>
           </Flex>
         </Flex>
