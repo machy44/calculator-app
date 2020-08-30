@@ -61,6 +61,12 @@ const App = () => {
     handleSubmit(expression);
   };
 
+  const handleEnterPress = (event) => {
+    if (event.key === "Enter") {
+      handleEqual();
+    }
+  };
+
   const handleKey = (value) => {
     setExpression((expression) =>
       expression ? `${expression}${value}` : value
@@ -70,7 +76,7 @@ const App = () => {
   const handleCursor = (event) => {
     event.preventDefault();
     inputRef.current.focus();
-  
+
     inputRef.current.selectionStart = inputRef.current.selectionEnd = 0;
     // setCursor(1);
     // console.log(pos);
@@ -79,14 +85,12 @@ const App = () => {
   };
 
   const handleResetKey = () => {
-    setExpression("")
-  }
+    setExpression("");
+  };
 
   const handleDelKey = () => {
-    setExpression((expression) =>
-    expression ? expression.slice(0, -1) : ""
-  );
-  }
+    setExpression((expression) => (expression ? expression.slice(0, -1) : ""));
+  };
 
   console.log("response", response);
   console.log("error", error);
@@ -128,6 +132,7 @@ const App = () => {
               // defaultValue={0}
               value={expression}
               onChange={handleInput}
+              onKeyPress={handleEnterPress}
             />
             <Box
               backgroundColor="#F8F8F8"
