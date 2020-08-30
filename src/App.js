@@ -76,13 +76,15 @@ const App = () => {
   const handleCursor = (event, moveOperation) => {
     inputRef.current.focus();
 
-    let start = inputRef.current.selectionStart;
+    // It seems like SemanticUI input wraps html input and the only way I could access to
+    // html input is ref inside semanticUI input ref current object
+    let start = inputRef.current.inputRef.current.selectionStart;
 
     if (moveOperation === "plus") {
-      inputRef.current.selectionStart = inputRef.current.selectionEnd =
+      inputRef.current.inputRef.current.selectionStart = inputRef.current.inputRef.current.selectionEnd =
         start + 1;
     } else {
-      inputRef.current.selectionStart = inputRef.current.selectionEnd =
+      inputRef.current.inputRef.current.selectionStart = inputRef.current.inputRef.current.selectionEnd =
         start - 1;
     }
   };
@@ -128,8 +130,7 @@ const App = () => {
             >
               {response}
             </Display>
-            <input
-              // innerRef={inputRef}
+            <Input
               ref={inputRef}
               size="large"
               placeholder="Type a math problem..."
