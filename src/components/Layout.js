@@ -1,12 +1,21 @@
 import styled from "@emotion/styled";
-import { space, flexbox, grid, layout, border, color } from "styled-system";
+import {
+  space,
+  flexbox,
+  grid,
+  layout,
+  border,
+  color,
+  position,
+} from "styled-system";
 
 export const Box = styled.div`
   ${space};
   ${color};
   ${flexbox};
   ${layout};
-  ${border}
+  ${border};
+  ${position};
 `;
 
 export const Flex = styled(Box)({

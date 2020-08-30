@@ -1,64 +1,50 @@
 /** @jsx jsx */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { jsx } from "@emotion/core";
 import {
   Box,
   Flex,
-  Button,
-  Text,
-  Toggle,
   Display,
-  Grid,
   Input,
 } from "./components";
 import { useTheme } from "emotion-theming";
 import { Global, css, injectGlobal } from "@emotion/core";
-import styled from "@emotion/styled";
 import { ThemeProvider } from "emotion-theming";
-import { getTheme, modes } from "./theme";
+import { getTheme, modes, GlobalStyles } from "./theme";
 import CalcButtons from "./Buttons";
 import useFetch from "./hooks/useFetch";
 
-const GlobalStyles = css`
-  @import url("https://fonts.googleapis.com/css2?family=Russo+One&display=swap");
 
-  body {
-    background: "text"
-    color: ${({ theme }) => theme.colors.text};
-    transition: all 0.5s linear;
-  }
 
-  body > div {
-    height: 100%;
-  }
-
-  body, span, input {
-    font-family: "Russo One", sans-serif;
-  }
-`;
-
-const CalculatorHeader = styled(Flex)({
-  justifyContent: "flex-start",
-  "& > div": {
-    marginLeft: 15,
-  },
-});
+// const CalculatorHeader = styled(Flex)({
+//   justifyContent: "flex-start",
+//   "& > div": {
+//     marginLeft: 15,
+//   },
+// });
 
 const App = () => {
   const [mode, setMode] = useState(modes[0]);
   const [expression, setExpression] = useState();
-  const { response, error, isLoading, handleSubmit } = useFetch();
-  const [cursor, setCursor] = useState();
+  const [responseHistory, setResponseHistory] = useState([]);
+  const { response, setResponse, error, isLoading, handleSubmit } = useFetch();
+
   const inputRef = React.useRef(null);
+  const previousExpression = React.useRef(null);
 
   const theme = getTheme(mode);
 
   const handleInput = (e, data) => {
+    if (response) {
+      setResponse();
+    }
     setExpression(data.value);
   };
 
   const handleEqual = () => {
+    previousExpression.current = expression;
     handleSubmit(expression);
+    handleResetKey();
   };
 
   const handleEnterPress = (event) => {
@@ -73,12 +59,21 @@ const App = () => {
     );
   };
 
+  useEffect(() => {
+    if (response) {
+      setResponseHistory((responses) => [
+        ...responses,
+        `${previousExpression.current} = ${response}`,
+      ]);
+    }
+  }, [response]);
+
   const handleCursor = (event, moveOperation) => {
     inputRef.current.focus();
 
     //https://github.com/Semantic-Org/Semantic-UI-React/blob/master/src/elements/Input/Input.js#L56
-    // It seems like SemanticUI input wraps html input and the only way I could access to
-    // html input is ref inside semanticUI input ref current object
+    // It seems SemanticUI input wraps html input and the only way I could access to
+    // html input is ref inside semanticUI input ref object
     let start = inputRef.current.inputRef.current.selectionStart;
 
     if (moveOperation === "plus") {
@@ -92,13 +87,14 @@ const App = () => {
 
   const handleResetKey = () => {
     setExpression("");
+    setResponse(null);
   };
 
   const handleDelKey = () => {
     setExpression((expression) => (expression ? expression.slice(0, -1) : ""));
   };
 
-  console.log("response", response);
+  // console.log("response", response);
   console.log("error", error);
   return (
     <React.Fragment>
@@ -116,29 +112,37 @@ const App = () => {
             }}
             // css={{ backgroundColor: theme.colors.body }}
           >
-            {/* <CalculatorHeader>
+            {/* <CalculatorHeader mt="10px">
               <Toggle onClick={() => setMode(modes[1])} label="Change Theme" />
               <Toggle onClick={() => console.log("audio")} label="Sound" />
             </CalculatorHeader> */}
-            <Flex justifyContent="center" p="10px 20px"></Flex>
             <Display
+              mt={["5px", "20px"]}
               alignItems="flex-end"
-              justifyContent="center"
-              minHeight={["50px", "60px", "75px"]}
+              flexDirection="column"
+              justifyContent="flex-end"
+              height={["120px", "100px"]}
+              // whiteSpace="nowrap"
+              overflow="auto"
               p="10px 20px"
               backgroundColor="#F0F0F0"
               borderTop="1px solid rgba(34,36,38,.15)"
             >
-              {response}
+              {responseHistory &&
+                responseHistory.map((response, index) => {
+                  return <Box key={index}>{response}</Box>;
+                })}
             </Display>
             <Input
+              loading={isLoading}
+              disabled={isLoading}
               ref={inputRef}
               size="large"
-              placeholder="Type a math problem..."
-              // defaultValue={0}
+              placeholder={isLoading ? "" : "Type a math problem..."}
               value={response ? response : expression}
               onChange={handleInput}
               onKeyPress={handleEnterPress}
+              error={Boolean(error)}
             />
             <Box
               backgroundColor="#F8F8F8"

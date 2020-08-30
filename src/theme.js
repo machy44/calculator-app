@@ -1,5 +1,24 @@
 import merge from "lodash.merge";
 import get from "lodash.get";
+import { css } from "@emotion/core";
+
+export const GlobalStyles = css`
+  @import url("https://fonts.googleapis.com/css2?family=Russo+One&display=swap");
+
+  body {
+    background: "text"
+    color: ${({ theme }) => theme.colors.text};
+    transition: all 0.5s linear;
+  }
+
+  body > div {
+    height: 100%;
+  }
+
+  body, span, input {
+    font-family: "Russo One", sans-serif;
+  }
+`;
 
 export const modes = [
   "light",
